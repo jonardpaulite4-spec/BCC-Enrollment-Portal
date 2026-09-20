@@ -1,0 +1,17 @@
+                    LOGIN
+                      │
+        ┌─────────────┼─────────────┐
+        ↓             ↓             ↓
+     STUDENT       REGISTRAR     INSTRUCTOR
+     PORTAL         PORTAL         PORTAL
+        │             │             │
+        ├─ Profile    ├─ Students   ├─ Profile
+        ├─ Enrollment ├─ Enrollment ├─ Class List
+        ├─ Subjects   ├─ Programs   ├─ Schedule
+        ├─ Schedule   ├─ Subjects   ├─ Attendance
+        ├─ Documents  ├─ Schedule   └─ Grades
+        └─ Notices    ├─ Documents
+                      └─ Reports
+                           │
+                           ↓
+                     localStorage

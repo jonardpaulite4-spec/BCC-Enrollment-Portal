@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BAAO Community College &mdash; San Juan Baao Camarines Sur &mdash; Unified Enrollment Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="role-header">
+    <div class="role-header-inner">
+      <div class="brand">
+        <div class="brand-mark"><img src="BCC_LOGO.jpg" alt="Baao Community College Logo" /></div>
+        <div class="brand-text">
+          <span class="brand-title">Baao Community College</span>
+          <span class="brand-title">San Juan Baao Camarines Sur</span>
+          <span class="brand-subtitle">Unified Campus Portal</span>
+        </div>
+      </div>
+      <div class="role-toggle-group" role="tablist" aria-label="Portal view">
+        <button class="role-btn" data-role="student" onclick="switchRole('student')">Student</button>
+        <button class="role-btn" data-role="instructor" onclick="switchRole('instructor')">Instructor</button>
+        <button class="role-btn" data-role="registrar" onclick="switchRole('registrar')">Registrar</button>
+        <button class="role-btn" data-role="admin" onclick="switchRole('admin')">Admin</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="root"></div>
+
+  <!-- Global scroll controls: available across Student, Instructor, Registrar, and Admin portals. -->
+  <div class="global-scroll-controls" aria-label="Page scroll controls">
+    <button id="scroll-top-btn" class="scroll-control" type="button" aria-label="Scroll to top" title="Scroll to top">
+      <span aria-hidden="true">↑</span>
+    </button>
+    <button id="scroll-bottom-btn" class="scroll-control" type="button" aria-label="Scroll to bottom" title="Scroll to bottom">
+      <span aria-hidden="true">↓</span>
+    </button>
+  </div>
+
+  <script src="api.js"></script>
+  <script>
+    (() => {
+      const topBtn = document.getElementById('scroll-top-btn');
+      const bottomBtn = document.getElementById('scroll-bottom-btn');
+
+      const updateScrollButtons = () => {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const viewportBottom = scrollTop + window.innerHeight;
+        const pageHeight = Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        );
+        const hasScrollableContent = pageHeight > window.innerHeight + 40;
+        const nearTop = scrollTop <= 80;
+        const nearBottom = viewportBottom >= pageHeight - 80;
+
+        topBtn.classList.toggle('is-visible', hasScrollableContent && !nearTop);
+        bottomBtn.classList.toggle('is-visible', hasScrollableContent && !nearBottom);
+      };
+
+      topBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      bottomBtn.addEventListener('click', () => {
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+      });
+
+      window.addEventListener('scroll', updateScrollButtons, { passive: true });
+      window.addEventListener('resize', updateScrollButtons);
+
+      // Rendered portal pages can change height/content without a resize event.
+      const observer = new MutationObserver(updateScrollButtons);
+      observer.observe(document.getElementById('root'), { childList: true, subtree: true });
+
+      updateScrollButtons();
+    })();
+  </script>
+  <script src="app.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

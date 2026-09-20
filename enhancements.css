@@ -1,0 +1,116 @@
+/* =====================================================================
+   BAAOCC PORTAL UX ENHANCEMENTS v2
+   Reusable UI primitives: toast, loading state, focus ring, status pills,
+   capacity meters, responsive tables, and accessible scroll control.
+===================================================================== */
+:root {
+  --ux-shadow: 0 10px 30px rgba(15, 41, 66, .12);
+  --ux-border: #dbe4ee;
+  --ux-surface: #ffffff;
+}
+
+/* Accessible focus */
+:where(button, a, input, select, textarea):focus-visible {
+  outline: 3px solid rgba(32, 101, 168, .28);
+  outline-offset: 2px;
+}
+
+/* Toasts */
+.ux-toast-stack {
+  position: fixed;
+  z-index: 99999;
+  right: 20px;
+  bottom: 20px;
+  display: grid;
+  gap: 10px;
+  width: min(380px, calc(100vw - 32px));
+  pointer-events: none;
+}
+.ux-toast {
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  align-items: start;
+  gap: 10px;
+  padding: 13px 14px;
+  background: var(--ux-surface);
+  border: 1px solid var(--ux-border);
+  border-radius: 14px;
+  box-shadow: var(--ux-shadow);
+  color: #0f2942;
+  animation: ux-toast-in .22s ease-out;
+  pointer-events: auto;
+}
+.ux-toast.success { border-left: 4px solid #249a63; }
+.ux-toast.error { border-left: 4px solid #c53c3c; }
+.ux-toast.warning { border-left: 4px solid #d98728; }
+.ux-toast.info { border-left: 4px solid #2166a5; }
+.ux-toast-icon { font-size: 18px; line-height: 1.2; }
+.ux-toast-title { font-weight: 800; font-size: 13px; }
+.ux-toast-message { margin-top: 2px; font-size: 12px; line-height: 1.45; color: #64748b; }
+.ux-toast-close {
+  border: 0; background: transparent; color: #94a3b8; cursor: pointer;
+  font-size: 18px; line-height: 1; padding: 0 2px;
+}
+@keyframes ux-toast-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Loading overlay */
+.ux-loading-overlay {
+  position: fixed; inset: 0; z-index: 99998; display: grid; place-items: center;
+  background: rgba(7, 25, 42, .28); backdrop-filter: blur(2px);
+}
+.ux-loading-card {
+  min-width: 190px; padding: 20px; text-align: center; background: #fff;
+  border: 1px solid var(--ux-border); border-radius: 16px; box-shadow: var(--ux-shadow);
+}
+.ux-spinner {
+  width: 30px; height: 30px; margin: 0 auto 10px; border: 3px solid #dbe4ee;
+  border-top-color: #2166a5; border-radius: 50%; animation: ux-spin .7s linear infinite;
+}
+@keyframes ux-spin { to { transform: rotate(360deg); } }
+
+/* Password strength */
+.ux-password-strength { margin-top: 7px; }
+.ux-strength-bar { height: 5px; border-radius: 99px; background: #e8edf3; overflow: hidden; }
+.ux-strength-fill { height: 100%; width: 0; transition: width .2s ease; }
+.ux-strength-label { margin-top: 4px; font-size: 11px; color: #64748b; font-weight: 700; }
+
+/* Capacity component */
+.ux-capacity { min-width: 150px; }
+.ux-capacity-row { display: flex; justify-content: space-between; gap: 8px; font-size: 11px; font-weight: 700; color: #475569; }
+.ux-capacity-track { height: 7px; margin-top: 6px; background: #e8edf3; border-radius: 99px; overflow: hidden; }
+.ux-capacity-fill { height: 100%; border-radius: inherit; transition: width .25s ease; }
+.ux-capacity-fill.low { background: #249a63; }
+.ux-capacity-fill.mid { background: #d98728; }
+.ux-capacity-fill.full { background: #c53c3c; }
+
+/* Better mobile tables/cards */
+.ux-responsive-table { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.ux-responsive-table > table { min-width: 680px; }
+
+/* Global scroll control */
+.global-scroll-controls {
+  position: fixed;
+  z-index: 9990;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  opacity: 0; transform: translateY(8px) scale(.96);
+  pointer-events: none; transition: opacity .2s ease, transform .2s ease;
+}
+.global-scroll-controls.has-target { opacity: 1; transform: none; pointer-events: auto; }
+.scroll-control {
+  width: 44px; height: 44px; border: 0; border-radius: 50%; cursor: pointer;
+  display: grid; place-items: center; font-size: 20px; font-weight: 800;
+  color: #0f2942; background: #fff; box-shadow: 0 8px 22px rgba(15, 41, 66, .18);
+}
+.scroll-control:hover { transform: translateY(-1px); }
+.scroll-control:active { transform: translateY(1px); }
+
+@media (max-width: 640px) {
+  .ux-toast-stack { right: 12px; bottom: 12px; width: calc(100vw - 24px); }
+  .global-scroll-controls { right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); }
+  .scroll-control { width: 42px; height: 42px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ux-toast, .ux-spinner, .global-scroll-controls, .scroll-control { animation: none !important; transition: none !important; }
+}

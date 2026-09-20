@@ -1,0 +1,25 @@
+{
+  "name": "baaocc-portal-server",
+  "version": "1.0.0",
+  "description": "MySQL-backed REST API for the Baao Community College Unified Enrollment Portal",
+  "main": "server.js",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "mobile": "npm --prefix mobile start",
+    "mobile:clear": "npm --prefix mobile start -- --clear",
+    "mobile:install": "npm --prefix mobile run setup",
+    "mobile:android": "npm --prefix mobile run android",
+    "mobile:ios": "npm --prefix mobile run ios",
+    "vercel-build": "echo Vercel build ready"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mysql2": "^3.11.0"
+  }
+}
